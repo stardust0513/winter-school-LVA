@@ -31,15 +31,15 @@ This guide is **Windows-only** and covers installing **Anaconda**, installing **
 ## 3) Install the Python Extension in VS Code
 
 1. Open **VS Code**
-2. Open **Extensions** (`Ctrl + Shift + X`)![alt text](images/image.png)
-3. Install python related package. ![alt text](images/image-1.png)
-4. Install Jupyter related package![alt text](images/image-2.png)
+2. Open **Extensions** (`Ctrl + Shift + X`)![alt text](./images/image.png)
+3. Install python related package. ![alt text](./images/image-1.png)
+4. Install Jupyter related package![alt text](./images/image-2.png)
   
 ---
 
 ## 4) Verify Anaconda Installation
 
-1. Open **Anaconda Prompt** (Start Menu → search **Anaconda Prompt**)![alt text](images/image-3.png)
+1. Open **Anaconda Prompt** (Start Menu → search **Anaconda Prompt**)![alt text](./images/image-3.png)
 2. Run:
 ```bash
 conda --version

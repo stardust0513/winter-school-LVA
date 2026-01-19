@@ -69,6 +69,21 @@ class IMS():
         
         return np.array(sig_train), np.array(sig_test)
     
+    def rms_trend(self, test_idx, sensor_idx):
+        self.data_path_ = os.path.join(self.data_path, f"test{test_idx}")
+        files = os.listdir(self.data_path_)
+        files = [f for f in files if f.endswith(".txt")]
+
+        rms_list = []
+        for num in range(len(files)):
+            file = files[num]
+            df = pd.read_csv(os.path.join(self.data_path_, file), sep="\t", header=None)
+            sig = df[sensor_idx-1].values
+            rms = np.sqrt(np.mean(sig**2))
+            rms_list.append(rms)
+        
+        return np.array(rms_list)
+    
     def unfold(self, sig, segment_length, overlap):
         """
         Unfold a signal into overlapping segments.
@@ -104,7 +119,7 @@ class IMS():
         self,
         test_idx,
         train_samples,
-        sensord_idx,
+        sensor_idx,
         **kwargs,
     ):
         segment_length = kwargs.get("segment_length", 20480)
@@ -115,7 +130,7 @@ class IMS():
         self.data_path_ = os.path.join(self.data_path, f"test{test_idx}")
 
         sample_list = [i for i in range(train_samples)]
-        sig_train, sig_test = self.read_list(sample_list, sensord_idx)
+        sig_train, sig_test = self.read_list(sample_list, sensor_idx)
         sig_train = self.unfold(sig_train, segment_length, overlap)
         sig_test = self.unfold(sig_test, segment_length, overlap)
 
