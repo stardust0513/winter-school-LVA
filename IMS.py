@@ -37,48 +37,55 @@ class IMS():
     def __init__(
         self,
         data_path,
+        test_idx=1,
+        sensor_idx=1
     ):
-        self.data_path = data_path
+        self.data_path = os.path.join(data_path, f"test{test_idx}")
+        assert test_idx in [1,2,3,4], "test_idx must be in [1,2,3,4]"
+        assert sensor_idx > 0, "sensor_idx must be positive integer"
+        self.test_idx = test_idx
+        self.sensor_idx = sensor_idx - 1
 
-    def read(self, sample_num, sensor_idx):
-        files = os.listdir(self.data_path_)
+    def read(self, sample_num):
+        assert sample_num > 0, "sample_num must be positive integer"
+        
+        files = os.listdir(self.data_path)
         files = [f for f in files if f.endswith(".txt")]
         file = files[sample_num-1]
-        df = pd.read_csv(os.path.join(self.data_path_, file), sep="\t", header=None)
-        sig = df[sensor_idx-1].values[np.newaxis,:]
+        df = pd.read_csv(os.path.join(self.data_path, file), sep="\t", header=None)
+        sig = df[self.sensor_idx].values[np.newaxis,:]
 
         return sig
 
-    def read_list(self, sample_list, sensor_idx):
+    def read_list(self, sample_list):
         
-        files = os.listdir(self.data_path_)
+        files = os.listdir(self.data_path)
         files = [f for f in files if f.endswith(".txt")]
         sig_train = []
         for num in sample_list:
             file = files[num]
-            df = pd.read_csv(os.path.join(self.data_path_, file), sep="\t", header=None)
-            sig_train.append(df[sensor_idx-1].values[np.newaxis,:])
+            df = pd.read_csv(os.path.join(self.data_path, file), sep="\t", header=None)
+            sig_train.append(df[self.sensor_idx].values[np.newaxis,:])
         
         # sample_list里没有的是sig_test
         sig_test = []
         for num in range(len(files)):
             if num not in sample_list:
                 file = files[num]
-                df = pd.read_csv(os.path.join(self.data_path_, file), sep="\t", header=None)
-                sig_test.append(df[sensor_idx-1].values[np.newaxis,:])
+                df = pd.read_csv(os.path.join(self.data_path, file), sep="\t", header=None)
+                sig_test.append(df[self.sensor_idx].values[np.newaxis,:])
         
         return np.array(sig_train), np.array(sig_test)
     
-    def rms_trend(self, test_idx, sensor_idx):
-        self.data_path_ = os.path.join(self.data_path, f"test{test_idx}")
-        files = os.listdir(self.data_path_)
+    def rms_trend(self):
+        files = os.listdir(self.data_path)
         files = [f for f in files if f.endswith(".txt")]
 
         rms_list = []
         for num in range(len(files)):
             file = files[num]
-            df = pd.read_csv(os.path.join(self.data_path_, file), sep="\t", header=None)
-            sig = df[sensor_idx-1].values
+            df = pd.read_csv(os.path.join(self.data_path, file), sep="\t", header=None)
+            sig = df[self.sensor_idx].values
             rms = np.sqrt(np.mean(sig**2))
             rms_list.append(rms)
         
@@ -117,9 +124,7 @@ class IMS():
     
     def __call__(
         self,
-        test_idx,
         train_samples,
-        sensor_idx,
         **kwargs,
     ):
         segment_length = kwargs.get("segment_length", 20480)
@@ -127,10 +132,9 @@ class IMS():
         assert 0 <= overlap < 1, "overlap must be in [0, 1)"
         
         # update the data_path based on the test_idx
-        self.data_path_ = os.path.join(self.data_path, f"test{test_idx}")
 
         sample_list = [i for i in range(train_samples)]
-        sig_train, sig_test = self.read_list(sample_list, sensor_idx)
+        sig_train, sig_test = self.read_list(sample_list)
         sig_train = self.unfold(sig_train, segment_length, overlap)
         sig_test = self.unfold(sig_test, segment_length, overlap)
 
