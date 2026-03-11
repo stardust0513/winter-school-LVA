@@ -1,3 +1,15 @@
+# Read Me
+
+This is the document on how to build the Python environment for Pytorch. For those people who are already familar with how to use Python and Jupyter, please just have a look at the "Package Requirements for those who are familar with python" part and install the required packages by "requirements.txt"
+
+If you don't know anything about Python, please start from the part "Windows Setup: Anaconda + VS Code + Creating a Python Environment"y
+
+# Package Requirements for those who are familar with python
+
+```bash
+pip install jupyter numpy matplotlib torch torchvision
+```
+
 # Windows Setup: Anaconda + VS Code + Creating a Python Environment
 
 This guide is **Windows-only** and covers installing **Anaconda**, installing **Visual Studio Code**, and creating a **Conda Python environment**.
@@ -74,7 +86,7 @@ Documentation: https://docs.jupyter.org/en/latest/
 
 Jupyter provides an interactive computing environment (Notebook and JupyterLab) that runs in the browser. It allows you to write and execute code, visualize results, and document experiments with Markdown, making it ideal for data analysis, research, teaching, and rapid prototyping.
 
-### Pandas
+<!-- ### Pandas
 ```bash
 pip install pandas
 ```
@@ -83,7 +95,7 @@ Website: https://pandas.pydata.org/
 
 Documentation: https://pandas.pydata.org/docs/
 
-Pandas is a powerful library for data manipulation and analysis. It offers high-level data structures such as DataFrame and Series for cleaning, transforming, aggregating (groupby), and working with time series data, as well as convenient I/O tools for CSV, Excel, SQL, and more.
+Pandas is a powerful library for data manipulation and analysis. It offers high-level data structures such as DataFrame and Series for cleaning, transforming, aggregating (groupby), and working with time series data, as well as convenient I/O tools for CSV, Excel, SQL, and more. -->
 
 ### Numpy
 ```bash
@@ -96,7 +108,7 @@ Documentation: https://numpy.org/doc/
 
 NumPy is the foundational package for scientific computing in Python. It provides fast N-dimensional arrays (ndarray) and vectorized operations, along with functionality for linear algebra, broadcasting, random number generation, and efficient numerical computation.
 
-### Scipy
+<!-- ### Scipy
 ```bash
 pip install scipy
 ```
@@ -105,7 +117,7 @@ Website: https://scipy.org/
 
 Documentation: https://docs.scipy.org/doc/scipy/
 
-SciPy builds on NumPy and provides a broad set of scientific computing tools, including optimization, signal processing, statistics, interpolation, sparse matrices, and numerical integration. It is widely used in engineering, research, and advanced data analysis workflows.
+SciPy builds on NumPy and provides a broad set of scientific computing tools, including optimization, signal processing, statistics, interpolation, sparse matrices, and numerical integration. It is widely used in engineering, research, and advanced data analysis workflows. -->
 
 ### Pytorch
 For cuda version.
